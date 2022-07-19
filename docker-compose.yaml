@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+#We now have two services, one for nginx and one for Certbot.
+ webserver-nginx:
+  image: nginx:latest
+  # nginx that listens to ports 80 for HTTP and 443 for HTTPS.
+  ports: 
+   - 80:80
+   - 443:443
+  restart: always
+  # we use the "volumes" feature of Docker.
+  volumes: 
+  #  Note that I add a ":ro" at the end, means "read-only"
+  - ./nginx/conf/:/etc/nginx/conf.d/:ro
+  - ./nginx/conf/:/etc/nginx/sites-enabled/:ro
+  # create the certbot decliration
+  - ./certbot/www:/var/www/certbot/:ro
+  - ./certbot/conf/:/etc/nginx/ssl/:ro
+
+ #Create the certificate using Certbot
+ certbot:
+  image: certbot/certbot:latest
+  volumes:
+  # Note that I add a ":rw" at the end, means "read-write"
+  - ./certbot/www/:/var/www/certbot/:rw
+  # Certbot create the certificates in the /etc/letsencrypt/ folder. 
+  - ./certbot/conf/:/etc/letsencrypt/:rw
