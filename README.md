@@ -1,4 +1,4 @@
-As it is a really common task, this post will guide you through with a step-by-step process to protect your website (and your users) using HTTPS. The specific part here is that we will do this in a docker environment.
+As it is a really common task, this post will guide you through with a step-by-step process to protect your website (and your users) using HTTPS.
 
 # Nginx as a server
 To be able to use nginx as a server for any of our projects, we have to create a Docker Compose service for it. Docker will handle the download of the corresponding image and all the other tasks we used to do manually without Docker.
