@@ -24,8 +24,9 @@ certbot certonly --webroot
 certbot renew --dry-run
 docker exec -it nginx sh -c "nginx -s reload"
 
+LINKS:
 
-
+- https://www.youtube.com/watch?v=Nz5PdexKdb0
 
 
 
