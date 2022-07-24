@@ -1,0 +1,33 @@
+####  GIT PART###
+####"Sparse checkout" allows populating the working directory sparsely.###
+git init
+git remote add -f origin <github-repo-link>
+git config core.sparseCheckout true
+echo "/repo/folder/path/*"> .git/info/sparse-checkout
+git pull origin master
+#then go to the repo/path
+git checkout master
+cd /repo/folder/path/
+
+####  NGINX PART###
+return 301 https://$server_name$request_uri;
+
+####  CERTBOT PART###
+cd /repo/folder/path/
+docker build . -t certbot
+docker run -it --rm --name certbot -v ${PWD}:/letsencrypy -v ${PWD}/certs:/etc/letsencrypt certbot bash
+
+mkdir public_html
+git clone repo
+docker run -it --rm --name nginx -v ${PWD}/nginx.conf:/etc/nginx/nginx.conf -v ${PWD}:/letsencrypt -v ${PWD}/certs:/etc/letsencrypt -p 80:80 -v ${PWD}/website:/usr/share/nginx/html:ro -p 443:443 nginx
+certbot certonly --webroot
+certbot renew --dry-run
+docker exec -it nginx sh -c "nginx -s reload"
+
+
+
+
+
+
+
+
